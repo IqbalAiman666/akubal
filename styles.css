@@ -67,36 +67,35 @@ nav {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #181818;
+    background: url('hero-bg.jpg') center center/cover no-repeat fixed, #181818;
     overflow: hidden;
+    animation: heroZoom 18s ease-in-out infinite alternate;
 }
 
-/* Animated diagonal lines background */
+@keyframes heroZoom {
+    0% {
+        background-size: 100% 100%, auto;
+    }
+    100% {
+        background-size: 110% 110%, auto;
+    }
+}
+
 .hero::before {
     content: '';
     position: absolute;
     top: 0; left: 0; right: 0; bottom: 0;
     z-index: 0;
-    background: repeating-linear-gradient(
-        120deg,
-        #232526 0px,
-        #232526 2px,
-        transparent 2px,
-        transparent 40px
-    );
-    opacity: 0.25;
-    animation: moveLines 8s linear infinite;
+    background: rgba(24,24,24,0.7); /* overlay gelap */
+    pointer-events: none;
 }
 
-@keyframes moveLines {
-    0% { background-position: 0 0; }
-    100% { background-position: 200px 200px; }
-}
-
-/* Glitch effect for hero title */
-.hero-content h1 {
+.hero-content {
     position: relative;
     z-index: 2;
+}
+
+.hero h1 {
     font-size: 4rem;
     font-weight: 900;
     color: #fff;
@@ -114,11 +113,6 @@ nav {
     60% { text-shadow: 2px 2px 0 #ffd700, -2px -2px 0 #232526; }
     80% { text-shadow: 3px 1px 0 #ffd700, -1px -3px 0 #232526; }
     100% { text-shadow: 2px 2px 0 #ffd700, -2px -2px 0 #232526; }
-}
-
-.hero-content {
-    position: relative;
-    z-index: 2;
 }
 
 .hero h2 {
