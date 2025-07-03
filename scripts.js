@@ -133,6 +133,43 @@ function renderCustomers() {
     </div>
   `).join('');
 }
+
+// === SYNC CUSTOMER <-> SUPABASE ===
+async function syncCustomersToSupabase() {
+  const customers = getCustomers();
+  // Kosongkan table Supabase dulu (delete all)
+  const del = await supabase.from('customers').delete().neq('id', 0); // delete all rows
+  if (del.error) {
+    alert('Gagal delete data Supabase: ' + del.error.message);
+    console.error('Supabase delete error:', del.error);
+    return;
+  }
+  let fail = 0;
+  for (const c of customers) {
+    const ins = await supabase.from('customers').insert([c]);
+    if (ins.error) {
+      fail++;
+      alert('Gagal insert ke Supabase: ' + ins.error.message);
+      console.error('Gagal insert:', c, ins.error);
+    } else {
+      console.log('Berjaya insert:', c);
+    }
+  }
+  if (fail === 0) {
+    console.log('Semua data berjaya di-sync ke Supabase!');
+  }
+}
+async function fetchCustomersFromSupabase() {
+  const { data, error } = await supabase.from('customers').select('*');
+  if (error) {
+    console.error('Gagal fetch dari Supabase:', error);
+    return;
+  }
+  saveCustomers(data || []);
+  renderCustomers();
+}
+
+// Override CRUD supaya sync ke Supabase juga
 function addOrUpdateCustomer(e) {
   e.preventDefault();
   const name = document.getElementById('customer-name').value.trim();
@@ -149,6 +186,7 @@ function addOrUpdateCustomer(e) {
   document.getElementById('customer-form').reset();
   document.getElementById('customer-id').value = '';
   renderCustomers();
+  syncCustomersToSupabase();
 }
 function editCustomer(i) {
   const customers = getCustomers();
@@ -164,8 +202,13 @@ function deleteCustomer(i) {
   customers.splice(i, 1);
   saveCustomers(customers);
   renderCustomers();
+  syncCustomersToSupabase();
 }
 document.getElementById('customer-form').addEventListener('submit', addOrUpdateCustomer);
 window.editCustomer = editCustomer;
 window.deleteCustomer = deleteCustomer;
+
+// Bila page load, fetch dari Supabase ke localStorage & UI
+fetchCustomersFromSupabase();
+
 renderCustomers(); 
