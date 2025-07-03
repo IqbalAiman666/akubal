@@ -7,8 +7,8 @@
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     line-height: 1.6;
-    color: #333;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #f3f3f3;
+    background: linear-gradient(135deg, #181818 0%, #232526 50%, #434343 100%);
     min-height: 100vh;
 }
 
@@ -20,13 +20,13 @@ body {
 
 /* Header */
 header {
-    background: rgba(255, 255, 255, 0.95);
+    background: rgba(24, 24, 24, 0.95);
     backdrop-filter: blur(10px);
     position: fixed;
     width: 100%;
     top: 0;
     z-index: 1000;
-    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 20px rgba(0,0,0,0.4);
 }
 
 nav {
@@ -39,7 +39,7 @@ nav {
 .logo {
     font-size: 2rem;
     font-weight: bold;
-    color: #333;
+    color: #fff;
     text-decoration: none;
 }
 
@@ -51,83 +51,74 @@ nav {
 
 .nav-links a {
     text-decoration: none;
-    color: #333;
+    color: #f3f3f3;
     font-weight: 500;
     transition: color 0.3s ease;
 }
 
 .nav-links a:hover {
-    color: #667eea;
+    color: #ffd700;
 }
 
 /* Hero Section */
 .hero {
-    height: 100vh;
+    position: relative;
+    min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    text-align: center;
-    color: white;
-    position: relative;
+    background: #181818;
     overflow: hidden;
 }
 
+/* Animated diagonal lines background */
 .hero::before {
     content: '';
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.4);
-    z-index: 1;
-}
-
-.graffiti-bg {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    top: 0; left: 0; right: 0; bottom: 0;
     z-index: 0;
-    pointer-events: none;
-    overflow: hidden;
+    background: repeating-linear-gradient(
+        120deg,
+        #232526 0px,
+        #232526 2px,
+        transparent 2px,
+        transparent 40px
+    );
+    opacity: 0.25;
+    animation: moveLines 8s linear infinite;
 }
 
-.graffiti-spray {
-    animation: graffitiMove1 6s ease-in-out infinite alternate;
-}
-.graffiti-spray2 {
-    animation: graffitiMove2 8s ease-in-out infinite alternate;
-}
-.graffiti-spray3 {
-    animation: graffitiMove3 10s ease-in-out infinite alternate;
+@keyframes moveLines {
+    0% { background-position: 0 0; }
+    100% { background-position: 200px 200px; }
 }
 
-@keyframes graffitiMove1 {
-    0% { transform: translateY(0px) scaleX(1); }
-    100% { transform: translateY(-20px) scaleX(1.05); }
+/* Glitch effect for hero title */
+.hero-content h1 {
+    position: relative;
+    z-index: 2;
+    font-size: 4rem;
+    font-weight: 900;
+    color: #fff;
+    letter-spacing: 2px;
+    text-shadow:
+        2px 2px 0 #ffd700,
+        -2px -2px 0 #232526;
+    animation: glitch 2.5s infinite linear alternate-reverse;
 }
-@keyframes graffitiMove2 {
-    0% { transform: translateY(0px) scaleX(1); }
-    100% { transform: translateY(15px) scaleX(0.97); }
-}
-@keyframes graffitiMove3 {
-    0% { transform: translateY(0px) scaleX(1); }
-    100% { transform: translateY(-10px) scaleX(1.03); }
+
+@keyframes glitch {
+    0% { text-shadow: 2px 2px 0 #ffd700, -2px -2px 0 #232526; }
+    20% { text-shadow: 4px 2px 0 #ffd700, -2px -4px 0 #232526; }
+    40% { text-shadow: 2px 4px 0 #ffd700, -4px -2px 0 #232526; }
+    60% { text-shadow: 2px 2px 0 #ffd700, -2px -2px 0 #232526; }
+    80% { text-shadow: 3px 1px 0 #ffd700, -1px -3px 0 #232526; }
+    100% { text-shadow: 2px 2px 0 #ffd700, -2px -2px 0 #232526; }
 }
 
 .hero-content {
     position: relative;
     z-index: 2;
-    max-width: 800px;
-}
-
-.hero h1 {
-    font-size: 4rem;
-    margin-bottom: 1rem;
-    font-weight: 700;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .hero h2 {
@@ -140,8 +131,8 @@ nav {
 .cta-button {
     display: inline-block;
     padding: 1rem 2rem;
-    background: linear-gradient(45deg, #667eea, #764ba2);
-    color: white;
+    background: linear-gradient(45deg, #232526, #434343);
+    color: #ffd700;
     text-decoration: none;
     border-radius: 50px;
     font-weight: 600;
@@ -151,7 +142,8 @@ nav {
 
 .cta-button:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    color: #232526;
+    background: #ffd700;
 }
 
 .hero-social-links {
@@ -172,14 +164,15 @@ nav {
 /* About Section */
 .about {
     padding: 100px 0;
-    background: white;
+    background: #232526;
+    color: #f3f3f3;
 }
 
 .section-title {
     text-align: center;
     font-size: 3rem;
     margin-bottom: 3rem;
-    color: #333;
+    color: #ffd700;
 }
 
 .about-content {
@@ -230,7 +223,8 @@ nav {
 /* Services Section */
 .services {
     padding: 100px 0;
-    background: #f8f9fa;
+    background: #181818;
+    color: #f3f3f3;
 }
 
 .services-grid {
@@ -241,12 +235,13 @@ nav {
 }
 
 .service-card {
-    background: white;
+    background: #181818;
     padding: 2rem;
     border-radius: 15px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease;
     text-align: center;
+    border: 1px solid #232526;
 }
 
 .service-card:hover {
@@ -262,7 +257,7 @@ nav {
 .service-card h4 {
     font-size: 1.5rem;
     margin-bottom: 1rem;
-    color: #333;
+    color: #ffd700;
 }
 
 .service-card p {
@@ -273,8 +268,8 @@ nav {
 /* Contact Section */
 .contact {
     padding: 100px 0;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
+    background: linear-gradient(135deg, #232526 0%, #181818 100%);
+    color: #fff;
 }
 
 .contact-content {
@@ -295,7 +290,7 @@ nav {
 }
 
 .contact-form {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(24,24,24,0.7);
     padding: 2rem;
     border-radius: 15px;
     backdrop-filter: blur(10px);
@@ -315,9 +310,10 @@ nav {
 .form-group textarea {
     width: 100%;
     padding: 1rem;
-    border: none;
+    border: 1px solid #434343;
     border-radius: 8px;
-    background: rgba(255, 255, 255, 0.9);
+    background: #232526;
+    color: #fff;
     font-size: 1rem;
 }
 
@@ -343,8 +339,8 @@ nav {
 
 /* Footer */
 footer {
-    background: #333;
-    color: white;
+    background: #111;
+    color: #f3f3f3;
     text-align: center;
     padding: 2rem 0;
 }
@@ -409,7 +405,8 @@ footer {
 
 .brands {
     padding: 80px 0 60px 0;
-    background: #f8f9fa;
+    background: #232526;
+    color: #f3f3f3;
 }
 
 #brands-list {
@@ -420,7 +417,7 @@ footer {
 }
 
 .brand-card {
-    background: white;
+    background: #181818;
     border-radius: 15px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.08);
     padding: 2rem 1.5rem;
@@ -428,6 +425,7 @@ footer {
     flex-direction: column;
     align-items: flex-start;
     transition: transform 0.2s;
+    border: 1px solid #232526;
 }
 .brand-card:hover {
     transform: translateY(-4px) scale(1.03);
@@ -435,7 +433,7 @@ footer {
 .brand-card h3 {
     font-size: 1.3rem;
     margin-bottom: 0.5rem;
-    color: #764ba2;
+    color: #ffd700;
 }
 .brand-card .brand-meta {
     font-size: 0.98rem;
@@ -453,4 +451,9 @@ footer {
 }
 .brand-card .brand-instagram:hover {
     text-decoration: underline;
+}
+
+input:focus, textarea:focus {
+    border-color: #ffd700;
+    outline: none;
 } 
