@@ -48,6 +48,42 @@ document.querySelectorAll('section').forEach(section => {
     observer.observe(section);
 });
 
+// === Supabase MCP Connect ===
+// Sudah diisi dengan URL & anon key sebenar user
+const supabaseUrl = 'https://jvbmjzpkgtzlicghzwbp.supabase.co';
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp2Ym1qenBrZ3R6bGljZ2h6d2JwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE1MjM1NjMsImV4cCI6MjA2NzA5OTU2M30.bO9X5CR9JMH7YhGG3wHiRJLn2fDxqVUYss48I-nUHF4';
+const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+
+// Contoh: Fetch data dari table 'brands' di Supabase
+async function fetchBrandsFromSupabase() {
+  let { data, error } = await supabase
+    .from('brands')
+    .select('*');
+  if (error) {
+    console.error('Supabase error:', error);
+    return;
+  }
+  console.log('Data dari Supabase:', data);
+  // Anda boleh render data ini ke page jika mahu
+}
+// fetchBrandsFromSupabase(); // Uncomment untuk test
+
+// Fungsi untuk export data brands.json ke Supabase table 'brands'
+async function exportBrandsToSupabase() {
+  const res = await fetch('brands.json');
+  const brands = await res.json();
+  for (const brand of brands) {
+    const { error } = await supabase.from('brands').insert([brand]);
+    if (error) {
+      console.error('Gagal insert:', brand.nama, error);
+    } else {
+      console.log('Berjaya insert:', brand.nama);
+    }
+  }
+  alert('Export ke Supabase selesai! (Check console untuk status setiap brand)');
+}
+// Untuk guna: buka console dan panggil exportBrandsToSupabase();
+
 // Papar data brand dari brands.json
 fetch('brands.json')
   .then(res => res.json())
@@ -66,4 +102,70 @@ fetch('brands.json')
         </a>
       </div>
     `).join('');
-  }); 
+  });
+
+// === CRUD Customer LocalStorage ===
+function getCustomers() {
+  return JSON.parse(localStorage.getItem('customers') || '[]');
+}
+function saveCustomers(customers) {
+  localStorage.setItem('customers', JSON.stringify(customers));
+}
+function renderCustomers() {
+  const list = document.getElementById('customer-list');
+  const customers = getCustomers();
+  if (!list) return;
+  if (customers.length === 0) {
+    list.innerHTML = '<div style="opacity:.7">Tiada customer lagi.</div>';
+    return;
+  }
+  list.innerHTML = customers.map((c, i) => `
+    <div class="customer-card">
+      <div class="customer-info">
+        <div><b>${c.name}</b></div>
+        <div>Email: ${c.email}</div>
+        <div>Phone: ${c.phone}</div>
+      </div>
+      <div class="customer-actions">
+        <button class="edit" onclick="editCustomer(${i})">Edit</button>
+        <button class="delete" onclick="deleteCustomer(${i})">Padam</button>
+      </div>
+    </div>
+  `).join('');
+}
+function addOrUpdateCustomer(e) {
+  e.preventDefault();
+  const name = document.getElementById('customer-name').value.trim();
+  const email = document.getElementById('customer-email').value.trim();
+  const phone = document.getElementById('customer-phone').value.trim();
+  const id = document.getElementById('customer-id').value;
+  let customers = getCustomers();
+  if (id) {
+    customers[id] = { name, email, phone };
+  } else {
+    customers.push({ name, email, phone });
+  }
+  saveCustomers(customers);
+  document.getElementById('customer-form').reset();
+  document.getElementById('customer-id').value = '';
+  renderCustomers();
+}
+function editCustomer(i) {
+  const customers = getCustomers();
+  const c = customers[i];
+  document.getElementById('customer-name').value = c.name;
+  document.getElementById('customer-email').value = c.email;
+  document.getElementById('customer-phone').value = c.phone;
+  document.getElementById('customer-id').value = i;
+}
+function deleteCustomer(i) {
+  let customers = getCustomers();
+  if (!confirm('Padam customer ini?')) return;
+  customers.splice(i, 1);
+  saveCustomers(customers);
+  renderCustomers();
+}
+document.getElementById('customer-form').addEventListener('submit', addOrUpdateCustomer);
+window.editCustomer = editCustomer;
+window.deleteCustomer = deleteCustomer;
+renderCustomers(); 

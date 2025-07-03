@@ -10,7 +10,7 @@
     <!-- Header -->
     <header>
         <nav class="container">
-            <a href="#" class="logo">BAL</a>
+            <a href="#" class="logo"><img src="profile.jpg" alt="Bal Profile" class="logo-img"></a>
             <ul class="nav-links">
                 <li><a href="#about">About</a></li>
                 <li><a href="#services">Services</a></li>
@@ -139,6 +139,23 @@
         </div>
     </section>
 
+    <!-- Customers Section -->
+    <section id="customers" class="customers">
+        <div class="container">
+            <h2 class="section-title">Senarai Customer</h2>
+            <form id="customer-form" class="customer-form">
+                <input type="text" id="customer-name" placeholder="Nama" required>
+                <input type="email" id="customer-email" placeholder="Email" required>
+                <input type="text" id="customer-phone" placeholder="No. Telefon" required>
+                <button type="submit" class="cta-button">Tambah Customer</button>
+                <input type="hidden" id="customer-id">
+            </form>
+            <div id="customer-list" class="customer-list">
+                <!-- Senarai customer akan dipaparkan di sini -->
+            </div>
+        </div>
+    </section>
+
     <!-- Contact Section -->
     <section id="contact" class="contact">
         <div class="container">
@@ -189,6 +206,7 @@
         </div>
     </footer>
 
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
     <script src="scripts.js"></script>
 </body>
 </html> 

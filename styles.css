@@ -43,6 +43,21 @@ nav {
     text-decoration: none;
 }
 
+.logo-img {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #ffd700;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    background: #232526;
+    transition: box-shadow 0.2s;
+}
+
+.logo-img:hover {
+    box-shadow: 0 4px 16px #ffd70044;
+}
+
 .nav-links {
     display: flex;
     list-style: none;
@@ -450,4 +465,76 @@ footer {
 input:focus, textarea:focus {
     border-color: #ffd700;
     outline: none;
+}
+
+.customers {
+    padding: 80px 0 60px 0;
+    background: #181818;
+    color: #f3f3f3;
+}
+.customer-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    background: #232526;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px #0002;
+}
+.customer-form input[type="text"],
+.customer-form input[type="email"] {
+    flex: 1 1 180px;
+    padding: 0.8rem 1rem;
+    border-radius: 8px;
+    border: 1px solid #434343;
+    background: #181818;
+    color: #fff;
+    font-size: 1rem;
+}
+.customer-form input[type="text"]:focus,
+.customer-form input[type="email"]:focus {
+    border-color: #ffd700;
+    outline: none;
+}
+.customer-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+.customer-card {
+    background: #232526;
+    border-radius: 10px;
+    padding: 1.2rem 1rem;
+    box-shadow: 0 2px 8px #0002;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+.customer-info {
+    flex: 1 1 200px;
+}
+.customer-actions button {
+    background: #ffd700;
+    color: #232526;
+    border: none;
+    border-radius: 6px;
+    padding: 0.5rem 1.1rem;
+    margin-left: 0.5rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.customer-actions button.edit {
+    background: #fff;
+    color: #232526;
+}
+.customer-actions button.delete {
+    background: #dd2a7b;
+    color: #fff;
+}
+.customer-actions button:hover {
+    opacity: 0.85;
 } 
